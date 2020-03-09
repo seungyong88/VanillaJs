@@ -1,0 +1,33 @@
+body {
+  margin: 0 auto;
+}
+
+.todos {
+  width: 600px;
+  height: 500px;
+  margin: 0 auto;
+  margin-top: 40px;
+  border: 1px solid black;
+}
+
+.todos-head {
+  padding-left: 40px;
+}
+
+.todos-head h1 {
+  margin:0px;
+  padding:0px;
+  padding-top: 30px;
+}
+
+.todos-head h2 {
+  margin:0px;
+  padding:0px;
+  padding-top:10px;
+}
+
+.todos-body {
+  padding: 40px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}

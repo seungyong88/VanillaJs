@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div style="font-size:20px;">숫자야구</div> 
+  <div style="font-size:16px;">전광판</div>
+  <div id="board">
+    <span id="board_detail"> 0스트라이크 0볼 </span> <span id="board_outCount"> 0 아웃 </span> <span id="temp"></span>
+  </div>
+  <input type="text" class="inputValue" autofocus maxlength="4" onkeyup="enterCheck(value)">
+  <button onclick="answerCheck()">입력</button>
+
+  <script>
+    var answerArr = [];
+    var outCount = 0;
+
+    function init() {
+      createNumber();
+    }
+
+    function createNumber() {
+      var i = 0;
+      while (answerArr.length !== 4) {
+        var candidate = Math.floor(Math.random() * 10);
+
+        if (answerArr.length === 0) {
+          answerArr.push(candidate);
+        } else {
+          var findIndex = answerArr.findIndex(item => item === candidate);
+          if (findIndex === -1) answerArr.push(candidate);
+        }
+      }
+
+      document.getElementById('temp').textContent=answerArr;
+    }
+
+    function answerCheck() {
+      var strikeCount = 0;
+      var ballCount = 0;
+      var answerString = answerArr.join('');
+      
+      var inputValue = document.getElementsByClassName('inputValue')[0].value;
+      document.getElementsByClassName('inputValue')[0].value = '';
+    
+      if(answerString !== inputValue){
+        answerArr.forEach((item, index) => {
+          if(item == inputValue[index]) {
+            strikeCount++;
+          }else{
+            var findIndex = answerArr.findIndex(answer => answer == inputValue[index]);
+            if(findIndex !== -1) { ballCount++; }
+          }
+        });
+
+        outCount++;
+        if(outCount === 4) { 
+          document.getElementById('board').innerHTML = '게임 오버';
+          alert('game over');          
+        }else{
+          document.getElementById('board_detail').textContent = `${strikeCount} 스트라이크 ${ballCount} 볼`;
+          document.getElementById('board_outCount').textContent = `${outCount} 아웃`;
+        }
+      }else{
+        var board = document.getElementById('board');
+        board.innerHTML = `정답! ${answerArr}`;
+      }
+    }
+
+    function enterCheck() {
+      if (window.event.keyCode == 13) {
+        answerCheck();
+      }
+    }
+
+    init();
+  </script>
+</body>
+
+</html>

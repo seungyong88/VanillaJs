@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <script>
+    var body = document.body;
+    var table = document.createElement('table');
+    table.style.cssText = 'border: 1px solid black; width: 180px; height:150px; border-collapse: collapse';
+    var tableArr = [];
+    var rowsArr = [];
+    var turn = 'X';
+
+    function callback(e) {
+      var tr = rowsArr.indexOf(e.target.parentNode);
+      var td = tableArr[tr].indexOf(e.target);
+2
+      // console.log(tableArr[tr][td].textContent);
+      if (tableArr[tr][td].textContent !== '') {
+        console.log('빈칸아님');
+      } else {
+        tableArr[tr][td].textContent = turn;
+        if (turn === 'X') { 
+          turn = 'O' 
+        } else { 
+          turn = 'X'; 
+        }
+      }
+    }
+
+    for (var i = 0; i < 3; i++) {
+      var row = document.createElement('tr');
+      rowsArr.push(row);
+      tableArr.push([])
+      for (var j = 0; j < 3; j++) {
+        var td = document.createElement('td');
+        td.style.cssText = 'border: 1px solid black; width: 60px; height: 50px; text-align: center;';
+        td.addEventListener('click', callback);
+        row.appendChild(td);
+        tableArr[i].push(td);
+      }
+      table.appendChild(row);
+    }
+
+    console.log(table, tableArr);
+
+    body.appendChild(table);
+
+  </script>
+</body>
+
+</html>

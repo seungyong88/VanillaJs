@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div>틱택토</div>
+
+  <div class="game_board">
+
+  </div>
+
+  <script>
+    var turn = true; // true을 경우 blue;
+    var clickArr = [];
+    var maxCount = 0;
+    var blueArr = [];
+    var redArr = [];
+
+    function gameReset() {
+      clickArr = [];
+      maxCount = 0;
+      blueArr = [];
+      redArr = [];
+
+      var gameBoard = document.getElementsByClassName('game_board');
+      // console.log(gameBoard[0].childNodes);
+
+      gameBoard[0].innerHTML = null;
+      var row = document.createElement('div');
+      var div = document.createElement('div');
+      row.style.cssText = "width:300px; display: flex; justify-content: center; align-item: center; border: 1px solid black;";
+      div.style.cssText = "width:100px; height:100px; border: 1px solid black;";
+      div.classList.add('column');
+      for (var j = 0; j < 3; j++) {
+        var rows = row.cloneNode();
+        for (var i = 0; i < 3; i++) {
+          rows.appendChild(div.cloneNode());
+        }
+        gameBoard[0].appendChild(rows);
+      }
+
+      var columns = getElementsByClassNameFunc('column');
+
+      for (var i = 0; i < columns.length; i++) {
+        // columns[i].addEventListener('click', function(event) {
+        //   console.log(event)
+        // });
+        columns[i].addEventListener('click', listener.bind(this, i, columns[i]));
+      }
+    }
+
+    function listener(index, element) {
+      if (clickArr.includes(index) === false) {
+        clickArr.push(index);
+        if (turn) {
+          element.style.cssText += 'background-color:blue';
+          blueArr.push(index);
+        } else {
+          element.style.cssText += 'background-color:red';
+          redArr.push(index);
+        }
+        turn = !turn; // 턴 넘김
+        maxCount += 1;
+      } else {
+        alert('이미 눌렀습니다.');
+      }
+
+      winnerCheck();
+
+      if (maxCount === 9) {
+        alert('다참');
+      }
+    }
+
+    function winnerCheck() {
+      console.log(blueArr);
+
+      // (blueArr.includes(i) && blueArr.includes(i+3) && blueArr.includes(i+6)) ||
+      // (redArr.includes(i) && redArr.includes(i+3) && redArr.includes(i+6))
+
+      for (var i = 0; i < 9; i += 3) { // 가로검사
+        if (
+          (blueArr.includes(i) && blueArr.includes(i + 1) && blueArr.includes(i + 2)) ||
+          (redArr.includes(i) && redArr.includes(i + 1) && redArr.includes(i + 2))
+        ) {
+          alert('게임종료');
+          gameReset();
+        }
+      }
+
+      for (var i = 0; i < 3; i++) { // 세로검사
+        if (
+          (blueArr.includes(i) && blueArr.includes(i + 3) && blueArr.includes(i + 6)) ||
+          (redArr.includes(i) && redArr.includes(i + 3) && redArr.includes(i + 6))
+        ) {
+          alert('게임종료');
+          gameReset();
+        }
+      }
+
+      if (
+        (blueArr.includes(0) && blueArr.includes(4) && blueArr.includes(8)) ||
+        (blueArr.includes(2) && blueArr.includes(4) && blueArr.includes(6)) ||
+        (redArr.includes(0) && redArr.includes(4) && redArr.includes(8)) ||
+        (redArr.includes(2) && redArr.includes(4) && redArr.includes(6))
+      ) {
+        alert('게임종료');
+        gameReset();
+      }
+
+    }
+
+    function getElementsByClassNameFunc(className) {
+      return document.getElementsByClassName(className);
+    }
+
+    function init() {
+      gameReset();
+    }
+
+    init();
+
+  </script>
+</body>
+
+</html>

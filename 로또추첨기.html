@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    td {
+      border: 1px solid black;
+      width:50px;
+      height: 50px;
+      text-align:center;
+      font-weight: bold;
+      font-size:34px;
+    }
+  </style>
+</head>
+<body>
+  <script>
+
+    var numbers = Array(45).fill().map((item, index) => index+1);
+    var shuffle = [];
+    while(numbers.length){
+      shuffle.push(numbers.splice(Math.floor(Math.random()*numbers.length) , 1)[0]);
+    }
+
+    var winningNumbers = shuffle.splice(0,6).sort(function(a,b) {return a-b;});
+    var bonusNumbers = shuffle[shuffle.length-1];
+
+    winningNumbers.forEach((item, index) => {
+      var div = document.createElement('div');
+      div.textContent = item;
+      
+      setTimeout(() => {
+        document.body.appendChild(div);
+      }, 500*(index+1));
+    })
+
+  </script> 
+</body>
+</html>

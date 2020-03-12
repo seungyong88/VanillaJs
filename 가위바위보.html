@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>가위바위보</title>
+</head>
+<body>
+  <div class="board">
+    컴퓨터의 가위 바위 보
+    <div class="computer"></div>
+    <button value="-1" class="myButton">가위</button>
+    <button value="0" class="myButton">바위</button>
+    <button value="1" class="myButton">보</button>
+  </div>
+  <script>
+    var choiceObj = {
+      '-1': '가위',
+      '0': '바위',
+      '1': '보',
+    };
+
+
+// 1차원 배열에서는 index를 사용하고
+// 2차원 배열에서는 find, findIndex를 사용한다.
+// console.log(Object.entries(choiceObj));
+  // console.log(choiceObj['1']);
+    var myChoice = '';
+    var buttons = document.querySelectorAll('.myButton');
+    buttons.forEach(item => {
+      item.addEventListener('click', function(e){
+        clearInterval(timeId);
+        var myValue = e.target.value;
+        var totalValue = myValue-index;
+        if(totalValue=== 0) {
+          console.log('비겼습니다.');
+        }else if((totalValue === 1) || (totalValue===-2) ){
+          console.log('이김');
+        }else if(totalValue === -1 || (totalValue===2)){ // else로 빼기
+          console.log('짐')
+        }
+      })
+    })
+ 
+    var computer = document.querySelector(".computer");
+    var index = -1;
+    var timeId = setInterval(() => {
+      index += 1;
+      index = index === 2 ? -1: index;
+      computer.textContent = choiceObj[index];
+    }, 100);
+
+  </script>
+</body>
+</html>

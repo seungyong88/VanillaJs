@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+
+    td {
+      border: 1px solid black;
+      width: 25px;
+      height: 25px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+<input value="10" class="rowsValue" style="width:60px" />
+<input value="10" class="columnValue" style="width:60px" />
+<input value="20" class="mineValue" style="width:60px" />
+<button onclick="create()">생성</button>
+
+<script>
+function create() {
+  var rows = document.querySelector('.rowsValue');
+  var column = document.querySelector('.columnValue');
+  var mine = document.querySelector('.mineValue');
+
+  var rowsValue = parseInt(rows.value);
+  var columnValue = parseInt(column.value);
+  var mineValue = parseInt(mine.value);
+
+  rows.value = '';
+  column.value = '';
+  mine.value = '';
+
+  var dataSet = [];
+  var table = document.createElement('table');
+  for (var i = 0; i < rowsValue; i++) {
+    var tr = document.createElement('tr');
+    var trArr = [];
+    for (var j = 0; j < columnValue; j++) {
+      var td = document.createElement('td');
+      td.textContent = '';
+      tr.appendChild(td);
+      trArr.push(1);
+    }
+    dataSet.push(trArr);
+    table.appendChild(tr);
+  }
+
+  var candidateArr = Array(rowsValue * columnValue).fill(0).map((item, index) => index + 1);
+  var mineCount = 0;
+  console.log(candidateArr);
+  while (mineCount < mineValue) {
+    var candidate = candidateArr.splice(Math.floor(Math.random() * (candidateArr.length - 1)), 1)[0];
+    // console.log((candidate%rowsValue));
+
+    console.log(`check Value ${candidate}`, Math.floor(candidate / rowsValue), (candidate % columnValue) - 1);
+    var row = Math.floor(candidate / rowsValue);
+    var column = candidate % columnValue;
+    dataSet[row][column] = 'X';
+    table.children[row].children[column].textContent = 'X';
+    mineCount++;
+  }
+
+  table.querySelectorAll('td').forEach(item => {
+    item.addEventListener('contextmenu', function (e) {
+      e.preventDefault();
+      console.log(e.target);
+      alert('오른쪽 클릭');
+    });
+  })
+
+  table.querySelectorAll('td').forEach(item => {
+    item.addEventListener('click', function () {
+      alert('왼쪽 클릭');
+    });
+  })
+
+  console.log(dataSet);
+  document.body.appendChild(table);
+  // console.log('sd', document.querySelectorAll('td'));
+}
+</script>
+</body>
+
+</html>
